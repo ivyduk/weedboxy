@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Acerca de{% endblock %}    
+{% block body %}
+
+<head>
+   
+    <!-- ======== CSS here ======== -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/lineicons.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+
+
+    
+<section id="about" class="hero-services">
+</section>
+
+<section>
+    <div class=" text-secondary px-4 py-5 text-center section-about-weedboxy "   >
+        <div class="py-5">
+            <h1 class="display-5 fw-bold text-green">Weedboxy</h1>
+            <br>
+            <div class="col-lg-6 mx-auto">
+                <p class="fs-5 mb-4">Ayudamos a autocultivadores de cannabis a cosechar plantas de su
+                interés de manera oportuna y legal reconociendo la calidad de los
+                resultados obtenidos</p>
+           
+             </div>
+        </div>
+      </div>
+
+
+   
+
+</section>
+
+
+
+<section>
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">¿Quienes somos?</h1>
+        <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Somos una organización compromelida con la capacitación, Investigación, asesoría y
+            promoción del cultivo legal, consciente, responsable de la planta y de sus usos. Así mismo
+            construimos cultra a partir de información objetiva y a través de la investigación en sus
+            procesos de cosecha, uso final y aplicaciones relacionadas.</p>
+        <img class="d-block mx-auto mb-4 responsive-image" src="{% static 'img/about_us/process.jpg' %}"  alt="Proceso de germinación" width="500px"  weight="100px">
+        </div>
+    </div>
+
+
+
+</section>
+
+
+
+
+<section>
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">¿Que ofrecemos?</h1>
+                <ul>
+                    <li> Renta de espacio privado para tu autoculivo</li>
+                    <li>Renta de equipamiento de tu espacio</li>
+                    <li> Adecuación del espacio</li>
+                    <li> Plan de suministro de suplementos estándar durante todo el ciclo de cultivo (Abonos)</li>
+                    <li> Labores de Jardinería y poda</li>
+                    <li> Labores de seguimiento y cuidado a la planta</li>
+                    <li> Ciclo completo de cultivo hasta la cosecha 24 semanas</li>
+                    <li> Evaluación de calidad de las flores resultantes</li>
+               
+                </ul>               
+            </div>
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="{% static 'img/about_us/indoor_autocultive.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="850" height="900" loading="lazy">
+            </div>
+           
+            
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

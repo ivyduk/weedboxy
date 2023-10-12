@@ -1,0 +1,430 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Weedboxy{% endblock %}    
+{% block body %}
+
+    <!-- ======== hero-section start ======== -->
+    <section id="home" class="hero-section">
+      {% include 'messages.html' %}
+        {% if message %}
+        <div class="alert alert-success hidden success-message " id="subscribe-message">
+            {{ messages}}
+        </div>
+      {% endif %}
+      <div class="container">
+        <div class="row align-items-center position-relative">
+          <div class="col-lg-6">
+            <div class="hero-content">
+              <h1 class="wow fadeInUp" data-wow-delay=".4s">
+                weedboxy.com
+              </h1>
+              <h2 class="wow fadeInUp">Cannabis accesible para consumo consciente</h2>
+                <p class="wow fadeInUp" data-wow-delay=".6s">
+                  Somos una organización comprometida con la capacitación, investigación, asesoría y promoción del autocultivo legal, consciente 
+                    y responsable de la planta. Así mismo construimos cultura a partir de información objetiva a partir de sus importantes beneficios. 
+                </p>
+              <a
+                href="#about"
+                class="main-btn border-btn btn-hover wow fadeInUp"
+                data-wow-delay=".6s"
+                >Conocer más</a
+              >
+              <a href="#features" class="scroll-bottom">
+                <i class="lni lni-arrow-down"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-md-6 div-r">
+            <div class="img img-fluid rounded float-start" data-wow-delay=".5s">
+              <img class="img-thumbnail" src="{% static 'img/hero/little_plants.jpg' %} " alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ======== hero-section end ======== -->
+
+
+    <!-- ======== products-section start ======== --> 
+    <section>   
+      <br><br><br>
+      <div class="container py-3 section-title text-center mb-60">
+            <h2  class="mb-25 wow fadeInUp" data-wow-delay=".2s">Tienda virtual</h2>
+            <hr>
+            <br>
+            <div class="row">
+                {% for product in products  %}
+                <div class="col-sm-12 col-md-6 col-lg-3 pb-4">
+                    <div class="card h-100" style="border:none">
+                        {% if product.has_discount %}
+                            <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Promo {{ product.discount_percentage }}%</div>
+                        {% endif %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name}}" style="width: auto; height: 250px; object-fit: scale-down;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted" style="font-size:12px">{{ product.category }}</p>
+                            {% if product.has_discount %}
+                                <span class="text-muted text-decoration-line-through">${{ product.price }}</span>-<span class="card-text">${{ product.total_price }}</span>
+                            {% else %}
+                                <p class="card-text">${{ product.total_price }}</p>
+                            {% endif %}
+                            <p class="card-text">{{ product.description }}</p>
+                            <br>
+                            {% if product|is_in_cart:cart %}
+                                
+                                <div class="row">
+                               
+                                    <form action="{% url 'remove_item_quantity' product.id %}"class="col-2" method="POST">
+                                        {% csrf_token %}
+                                        <input hidden type="text" name='product' value='{{product.id}}'>
+                                        <input hidden type="text" name='remove' value='True'>
+                                        <button class="btn btn-success px-3 ms-2">
+                                            <i class="fas fa-minus">-</i>
+                                        </button>
+                                    </form>
+                                    <div class="text-center col">{{product|cart_quantity:cart}} en carrito</div>
+                                    <form action="{% url 'add_item' product.id %}" class="col-2 " method="POST">
+                                        {% csrf_token %}
+                                        <input hidden type="text" name='product' value='{{product.id}}'>
+                                        <button class="btn btn-success px-3 ms-2">
+                                            <i class="fas fa-plus">+</i>
+                                        </button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <form action="{% url 'add_item' product.id %}" method="POST" class="btn-block">
+                                    {% csrf_token %}
+                                    <input hidden type="text" name='product' value='{{product.id}}'>
+                                    <button class="center btn btn-primary btn-wb btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                        </svg>
+                                    <b> Agregar al carrito </b>
+                                    </button>
+                                </form>
+                            {% endif %}
+                                
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="container text-right">
+                <a class="btn border border-success" href="{% url 'products_home' %}">ver más</a>
+            </div>
+      </div>
+    </section>
+
+    <!-- ======== products-section end ======== -->
+
+
+    <!-- ======== feature-section start ======== -->
+    <section id="features" class="feature-section pt-120">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-md-8 col-sm-10">
+            <div class="single-feature">
+              <div class="icon">
+                <i class="lni lni-leaf"></i>
+              </div>
+              <div class="content">
+                <h3>Renta y adecuación de espacios para autocultivo</h3>
+                <p>
+                  Ofrecemos espacios diseñados y equipados  
+                necesarios para el autocultivo de marihuana. 
+                </p>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-8 col-sm-10">
+            <div class="single-feature">
+              <div class="icon">
+                <i class="lni lni-layout"></i>
+              </div>
+              <div class="content">
+                <h3>Cursos</h3>
+                <p>
+                  Ofrecemos cursos que abarcan los conocimientos necesarios para que emprenda en el mundo
+                  del autocultivo de marihuana.
+                </p>
+               
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-8 col-sm-10">
+            <div class="single-feature">
+              <div class="icon">
+                <i class="lni lni-consulting"></i>
+              </div>
+              <div class="content">
+                <h3>Consultoría en cultivo</h3>
+                <p>
+                  Contamos con expertos que te guiaran de manera exitosa en el cultivo de marihuana.
+                 
+                </p>
+              
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <a 
+          href="{% url 'services_home' %}"
+          class="main-btn btn-hover border-btn  me-md-2" type="button"
+          data-wow-delay=".6s">Conocer mas</a>
+        </div>
+     
+      </div>
+    </section>
+    <!-- ======== feature-section end ======== -->
+
+
+
+    <!-- ======== about-section start ======== -->
+    <section id="about" class="about-section pt-150">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-xl-6 col-lg-6">
+            <div class="about-img">
+              <img src="{% static 'img/about/cultivosWB.png' %}" alt="" class="w-100" />
+              <img
+                src="{% static 'img/about/about-left-shape.svg' %}"
+                alt=""
+                class="shape shape-1"
+              />
+              <img
+                src="{% static 'img/about/left-dots.svg' %}"
+                alt=""
+                class="shape shape-2"
+              />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="about-content">
+              <div class="section-title mb-30">
+                <h2 class="mb-25 wow fadeInUp" data-wow-delay=".2s">
+                  Acerca de nosotros
+                </h2>
+                <p class="wow fadeInUp" data-wow-delay=".4s">
+                  Somos una organización comprometida con la capacitación, investigación, asesoría y
+                  promoción del cultivo legal, consciente, responsable de la planta y de sus usos. Así mismo
+                  construimos cultura a partir de información objetiva y a través de la investigación en sus
+                  procesos de cosecha, uso final y aplicaciones relacionadas.
+                  La visión de weedboxy es facilitar el proceso de autocultivo y fomentar el uso consciente de
+                  las plantas prestando ayuda a los individuos y comunidades interesadas en sus beneficios e
+                  involucradas en sus ciclos de vida.
+                </p>
+              </div>
+              <a
+                href="{% url 'about_home' %}"
+                class="main-btn btn-hover border-btn wow fadeInUp"
+                data-wow-delay=".6s"
+                >Conocer mas</a
+              >
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ======== about-section end ======== -->
+
+    <!-- ======== about2-section start ======== -->
+    <section id="about" class="about-section pt-150">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-xl-6 col-lg-6">
+            <div class="about-content">
+              <div class="section-title mb-30">
+                <h2 class="mb-25 wow fadeIEasy to Use with Tons of Awesome FeaturesnUp" data-wow-delay=".2s">
+                  Renta de espacio para autocultivo
+                </h2>
+                <p class="wow fadeInUp" data-wow-delay=".4s">
+                  Adecuamos y preparamos el espacio para que tengas tu planta.
+                </p>
+              </div>
+              <ul>
+                <li>Fácil acceso</li>
+                <li>Fácil de administrar</li>
+                <li>Soporte y cuidado permanente</li>
+                <li>Alta Calidad</li>
+              </ul>
+              <a
+              href="{% url 'services_home' %}"
+                class="main-btn btn-hover border-btn wow fadeInUp"
+                data-wow-delay=".6s"
+                >Aprender Más</a
+              >
+              
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 order-first order-lg-last">
+            <div class="about-img-2">
+                <img src="{% static '/img/about/flowers.png' %} " alt="" class="w-100" />
+                <div class="centered">Calidad Autocultivo WB vs Mercado ilegal</div>
+              <img
+                src="{% static '/img/about/about-right-shape.svg' %}"
+                alt=""
+                class="shape shape-1"
+              />              
+              <img
+                src="{% static '/img/about/right-dots.svg' %}"
+                alt=""
+                class="shape shape-2"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ======== about2-section end ======== -->
+
+    <!-- ======== feature-section start ======== -->
+    <section id="why" class="feature-extended-section pt-100">
+      <div class="feature-extended-wrapper">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xxl-5 col-xl-6 col-lg-8 col-md-9">
+              <div class="section-title text-center mb-60">
+                <h2 class="mb-25 wow fadeInUp" data-wow-delay=".2s">
+                  ¿Quienes somos?
+                </h2>
+                <p class="wow fadeInUp" data-wow-delay=".4s">
+                  Ayudamos a autocultivadores de cannabis a cosechar plantas de su
+                    interés de manera oportuna y legal reconociendo la calidad de los
+                  resultados obtenidos
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="single-feature-extended">
+                <div class="icon">
+                  <i class="lni lni-graduation"></i>
+                </div>
+                <div class="content">
+                  <h3>Formación</h3>
+                  <p>
+                    Centro de capacitación práctico de cultivo de cannabis. Construimos un 
+                programa de aprendizaje por módulos teóricos y prácticos para cultivos  de cannabis
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="single-feature-extended">
+                <div class="icon">
+                  <i class="lni lni-grow"></i>
+                </div>
+                <div class="content">
+                  <h3>Autocultivo</h3>
+                  <p>
+                    Tenemos la intención de crecer en conjunto con las personas que comparten nuestros valores 
+                a partir de esto somos una comunidad incluyente y diversa que promueve el consumo informado y responsable.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="single-feature-extended">
+                <div class="icon">
+                  <i class="lni lni-grid-alt"></i>
+                </div>
+                <div class="content">
+                  <h3>Cultura</h3>
+                  <p>
+                    Tenemos la intención de crecer en conjunto con las personas que comparten nuestros valores 
+                a partir de esto somos una comunidad incluyente y diversa que promueve el consumo informado y responsable.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="single-feature-extended">
+                <div class="icon">
+                  <i class="lni lni-pencil-alt"></i>
+                </div>
+                <div class="content">
+                  <h3>Investigación y difusión</h3>
+                  <p>
+                    Estamos comprometidos con estudiar todo lo relacionado a la planta, desde su germinación así como los factores que influyen 
+                    en su salud durante su ciclo de vida y de que manera puede obtenerse la mejor calidad en la planta.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="single-feature-extended">
+                <div class="icon">
+                  <i class="lni lni-layers"></i>
+                </div>
+                <div class="content">
+                  <h3>Variabilidad y cepas</h3>
+                  <p>
+                    Dependiendo de la variabilidad y calidad de la planta se pueden vivir diferentes experiencias 
+                y que nosotros te acompañeremos para que disfrutes las que más te interesen.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <!--<div class="col-lg-4 col-md-6">
+              <div class="single-feature-extended">
+                <div class="icon">
+                  <i class="lni lni-rocket"></i>
+                </div>
+                <div class="content">
+                  <h3>Tienda virtual</h3>
+                  <p>
+                    Acá podrás encontrar tus suplementos y parafernalia necesaria para tus necesidades.
+                  </p>
+                </div>
+              </div>
+            </div>-->
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ======== feature-section end ======== -->
+
+    <!-- ======== subscribe-section start ======== -->
+    
+    <section id="contact" class="subscribe-section pt-120">
+      
+      <div class="container">
+        <div class="subscribe-wrapper img-bg">
+          <div class="row align-items-center">
+            <div class="col-xl-6 col-lg-7">
+              <div class="section-title mb-15">
+                <h2 class="text-white mb-25">Subscribete a nuestro boletín de noticias</h2>
+                <p class="text-white pr-5">
+                  Mantente conectado con nosotros
+                </p>
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-5">
+              <form method="POST" class="subscribe-form" id="subscribe-form">
+                {% csrf_token %}
+                {{ form.email}}
+                <button type="submit" class="main-btn btn-hover">
+                  Subscribirse
+                </button>
+              </form>
+             
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- ======== subscribe-section end ======== -->
+
+
+{% endblock %}

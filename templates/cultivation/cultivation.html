@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Autocultivos{% endblock %}    
+{% block body %}
+
+    <!-- ======== cultivation-plan-section ======== -->
+    
+    <section>
+        <div class="bg-success py-5">
+           <br><br>
+            <div class="container-fluid py-5 bg-success text-white text-center">
+                <h1 class="text-white">Plan de Autocultivo </h1>
+                <p class="lead fw-normal text-white-50 mb-0"> Ofrecemos planes completos para que puedas cultivar tu cannabis 
+                    de forma segura y responsable. ¡Empieza hoy tu viaje hacia el autocultivo!</p> 
+            </div> 
+        </div>
+    </section>
+
+  
+<section class="container py-5">
+    <div class="row">
+        {% for plan in plans %}
+        <div class="col-md-8">
+            <h2 style="text-align: center;">Descripción del plan</h2>
+                <br>
+                <P>{{ plan.description }}</P>
+            <figure class="figure">
+                <div class="card h-100" style="border:none">
+                    <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.name}}" style="width: auto; height: 250px; object-fit: scale-down; text-align: center;">
+                </div>  
+                <figcaption class="figure-caption text-center">imagen autocultivo.</figcaption>
+            </figure>
+            <h2 style="text-align: center;">Caracteristicas del plan.</h2>
+
+            <div class="row">
+                <ul class="list-group list-group-light list-group-small">
+                    <li class="list-group-item"><span class="fas fa-star"></span> Semillas de Calidad Superior: Incluye semillas de 
+                        cannabis de las variedades más prestigiosas y con genéticas de alto rendimiento.</li>
+                    <li class="list-group-item"><span class="fas fa-star"></span> Herramientas de Cultivo de Vanguardia: Proporcionamos equipos de cultivo de última generación, 
+                        incluyendo sistemas de iluminación, ventilación y control de clima de alta eficiencia.</li>
+                    <li class="list-group-item"><span class="fas fa-star"></span> Asesoramiento Personalizado: Acceso a asesoramiento y soporte individualizado 
+                        de nuestros expertos en cannabis para maximizar tu éxito en el cultivo.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4 program-container">
+            <div class="card text-center">
+                <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+                    <h2>Costo del plan</h2>
+                </div>
+                {% if plan.has_discount %}
+                <div class="card-body">
+                    <h1 class="text-muted"><s>${{ plan.price }}</s></h1>
+                    <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+                        <h4 class="text-muted">Precio con descuento</h4>
+                    </div>
+                    <h1><b>${{ plan.total_price }} </b></h1>
+                </div>
+                {% else %}
+
+                <div class="card-body">
+                    <h1 class="text-muted">${{ plan.price }}</h1>
+                </div>
+                {% endif %}
+        
+        {% endfor %}       
+
+                {% for plan in plans  %}
+                <form action="{% url 'add_item' plan.id %}" method="POST" class="btn-block">
+                    {% csrf_token %}
+                    <input hidden type="text" name='cultivationplan' value='{{plan.id}}'>
+                    <button class="btn btn-primary btn-wb">  Comprar <i class="fas fa-arrow-right"></i></button>
+                </form>
+                {% endfor %}
+                <br>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fas fa-male text-success mx-2"></i>6 meses duración</li>
+                    <li class="list-group-item"><i class="fas fa-venus text-success mx-2"></i>Visitas ilimitadas al laboratorio</li>
+                    <li class="list-group-item"><i class="fas fa-gavel text-success mx-2"></i>Esquejes de regalo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <br><br>
+            {% for plan in plans %}
+                       
+        </div>
+
+        <div class="row">
+                <div class="col col-md-6 col-lg-3 pb-4">
+                    <div class="card h-100" style="border:none">
+                        <video idth="530" height="440" style="text-align: center;" >
+                            <source src="{{ plan.video.url }}" type="video/mp4"> </source>
+                        </video>
+                    </div>  
+
+
+                </div>          
+            {% endfor %}
+        </div>
+
+</section>
+
+<section class="container py-5" id="syllabus-section">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1 class="text-center">Plan de autocultivo</h1>
+            </div>
+        </div>
+        <div class="accordion accordion-flush" id="syllabus-list">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-1">
+                            1. Germinación, enraizado y esquejes
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-1" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Coffee</li>
+                                <li>Tea</li>
+                                <li>Milk</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-2">
+                            2. Instrumentación y Calibración
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-2" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Coffee</li>
+                                <li>Tea</li>
+                                <li>Milk</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-3">
+                            3. Equipos de riego
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-3" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Coffee</li>
+                                <li>Tea</li>
+                                <li>Milk</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-4">
+                            4. Iluminación. LEC, LED, UV / Control
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-4" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Coffee</li>
+                                <li>Tea</li>
+                                <li>Milk</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-5">
+                            5. Control Biológico
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-5" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Coffee</li>
+                                <li>Tea</li>
+                                <li>Milk</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-6">
+                            6. Preparación Sustrato
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-6" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Coffee</li>
+                                <li>Tea</li>
+                                <li>Milk</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-7">
+                            7. Microorganismos
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-7" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Coffee</li>
+                                <li>Tea</li>
+                                <li>Milk</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</section>
+
+<!-- ======== cultivation-plan-section end ======== -->
+
+
+  <!-- ======== packages-section ======== -->
+
+
+  <!--<section id="pricing">
+  <div class="container">
+     <div class="row text-center">
+        <h1 class="title">Paquetes</h1>
+     </div>
+     <br><br><br>
+     <div class="row">
+        {% for package in packages %}
+           <div class="col-md-4 col-sm-6">
+              <div class="pricingTable">
+                 <div class="pricingTable-header">
+                    <h3 class="heading">{{ package.name }}</h3>
+                    <span class="subtitle">{{ package.description }}</span>
+                    <div class="price-value">{{ package.price }}
+                       <span class="currency">$</span>
+                       <span class="month"> /mes</span>
+                    </div>
+                 </div>
+                 <ul class="pricing-content">
+                    {% for item in package.package_items.all %}
+                      <li>{{ item.name }}</li>
+                    {% endfor %}
+                 </ul>
+                 <form action="{% url 'add_item' package.id %}" method="POST" class="btn-block">
+                    {% csrf_token %}
+                    <input hidden type="text" name='package' value='{{package.id}}'>
+                    <button  class=" read">
+                      <b> Agregar al carrito </b>
+                    </button>
+                  </form>
+
+              </div>
+           </div>
+        {% endfor %}
+     </div>
+  </div>
+</section> -->
+
+  <!-- ======== packages-section end ======== -->
+
+  
+
+{% endblock %}

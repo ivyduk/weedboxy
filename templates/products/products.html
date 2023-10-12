@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Productos{% endblock %}    
+{% block body %}
+
+
+
+<section>
+    <div class="bg-success py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center">
+                <br><br><br>
+                <h1 class="display-4 text-white fw-bolder">Tienda virtual Weedboxy</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Encuentra todo lo que necesitas</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container py-5">
+        <div class="container">
+            <div class="row">
+            <aside class="col-md-3">
+             
+    <!-- ======== categories-section ======== -->       
+                <div class="card">
+                    <article class="filter-group" id="filter_header">
+                        <header class="card-header">
+                            <!--<a href="#collapse_1"  data-toggle="collapse" aria-expanded="false" aria-controls="#collapse_1">
+                                <i class="icon-control fa fa-chevron-down"></i>
+                                <h3 class="title">Categorias</h3>
+                            </a>-->
+                            <h3 class="title">Categorias</h3>
+                        </header>
+                        <div class="filter-content collapse show" id="collapse_1">
+                            <div class="card-body">
+                                <form class="pb-3">
+                                <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar">
+                                <div class="input-group-append">
+                                    <button class="btn btnSearch-light" type="button"><i class="fa fa-search"></i></button>
+                                </div>
+                                </div>
+                                </form>
+                                
+                                <div class="list-group">
+                                    {% for category in categories %}
+                                    <a href="{% url 'product_list_filtered' category.id %}" class="list-group-item list-group-item-action btn btn-outline-success">{{ category.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div> <!-- card-body.// -->
+                        </div>
+                    </article> <!-- filter-group  .// -->
+                </div>
+    <!-- ======== categories-section end ======== -->            
+      
+        <!-- ======== products-propierties-section  ======== -->
+            </aside>
+            <div class="col-md-9">
+            
+                <header class="border-bottom mb-4 pb-3">
+                    <div class="row">
+                        <div class="col">
+                            <span class="mr-md-auto">{{ total }} Productos encontrados </span>
+                        </div>
+                        <div class="col col-md-3">
+                            <select class="mr-2 form-select form-control">
+                                <option value="">Seleccione una opción</option>
+                                <option value="recent">Más recientes</option>
+                                <option value="promo">En promoción</option>
+                            </select>
+                        </div>
+                    </div>
+                </header>
+        <!-- ======== products-propierties-section end ======== -->
+
+
+        <!-- ======== products-section ======== -->
+                <div class="row">
+                    {% for product in products %}
+                    <div class="col col-md-6 col-lg-3 pb-4">
+                        <div class="card h-100" style="border:none">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name}}" style="width: auto; height: 250px; object-fit: scale-down;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text text-muted" style="font-size:12px">{{ product.category }}</p>
+                                <p class="card-text">{{ product.price }}</p>
+                                <p class="card-text">{{ product.description }}</p>
+                                <br>
+                                {% if product|is_in_cart:cart %}
+                                <div class="input-group">
+                                    <form action="{% url 'remove_item_quantity' product.id %}" class="col-2" method="POST">
+                                        {% csrf_token %}
+                                        <span class="input-group-btn">
+                                            <input hidden type="text" name='product' value='{{product.id}}'>
+                                            <input hidden type="text" name='remove' value='True'>                              
+                                            <button class="btn btn-success btn-number">
+                                                <i class="fas fa-minus">-</i>
+                                            </button>
+                                        </span>
+                                    </form>
+                                    <span class="text-center col">{{product|cart_quantity:cart}} en carrito</span>
+                                    <form action="{% url 'add_item' product.id %}" class="col-2 " method="POST">
+                                        {% csrf_token %}
+                                        <span class="input-group-btn">
+                                            <input hidden type="text" name='product' value='{{product.id}}'>
+                                            <button class="btn btn-success btn-number">
+                                                <i class="fas fa-plus">+</i>
+                                            </button>
+                                        </span>
+                                    </form>
+                                </div>
+                                {% else %}
+                                    <form action="{% url 'add_item' product.id %}" method="POST" class="btn-block">
+                                        {% csrf_token %}
+                                        <input hidden type="text" name='product' value='{{product.id}}'>
+                                        <button class="center btn btn-primary btn-wb btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                            </svg>
+                                        <b> Agregar al carrito </b>
+                                        </button>
+                                    </form>
+                                {% endif %}                               
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+        <!-- ======== products-section end ======== -->
+    
+
+        <!-- ======== pagination ======== -->
+        <div class="container">
+            <div class="pagination justify-content-center">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; primero</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                    {% endif %}
+    
+                    <span class="current">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                    </span>
+    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">último &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <!-- ======== end pagination ======== -->
+    </div>
+
+
+
+
+</section>
+
+
+
+  
+
+{% endblock %}

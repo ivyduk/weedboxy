@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+    {% include "parts/header.html" %}
+    <title>{% block title %}{% endblock %}</title>
+    <body>
+        {% block body %}
+        {% endblock %}
+    {% include "parts/footer.html" %}
+</html>
