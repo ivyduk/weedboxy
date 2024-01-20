@@ -4,6 +4,8 @@ from django.contrib import admin
 
 from .models import CultivationPlan
 from .models import StagesCultivationPlan
+from .models import PlanFeature
 
 admin.site.register(CultivationPlan)
 admin.site.register(StagesCultivationPlan)
+admin.site.register(PlanFeature)

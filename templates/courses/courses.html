@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% load currency_converter %}
+{% block title %}Cursos de Autocultivo Weedboxy{% endblock %}    
+{% block body %}
+
+<section>
+    <div class=" py-5" style="background-color: #502d61;">
+       <br><br>
+        <div class="container-fluid  text-white text-center margin-header" style="background-color: #502d61;">
+            <h1 class="text-white">Cursos de Autocultivo</h1>
+            <p class="lead fw-normal text-white-50 mb-0"> Marihuana de Calidad, Cultivo con Sabiduría </p> 
+        </div> 
+    </div>
+</section>
+
+
+<section >
+    <br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="pricingTable">
+                    <div class="card-body ">
+                        <h3 class="heading pricingTable-header">Temáticas</h3>
+                        <ul id="modules" class=" pricing-content">
+                            <li {% if not subject %}class="selected"{% endif %}>
+                                <a href="{% url "courses_home" %}">Todos</a>
+                            </li>
+                            {% for s in subjects %}
+                                <li {% if subject == s %}class="selected"{% endif %}>
+                                    <a href="{% url "course_list_subject" s.slug %}">
+                                        {{ s.title }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <span>{{ s.total_courses }} curso{{ s.total_courses|pluralize }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="row">
+                    <br><br><br>
+                    {% block content %}
+                        <h1 class="title-color">
+                            {% if subject %}
+                            {{ subject.name }} Cursos
+                            {% else %}
+                            Todos los cursos
+                            {% endif %}
+                        </h1>
+                        {% for course in courses %}
+<div class="col-md-12 mb-4">
+    <div class="card course-card">
+        <div class="row">
+            <div class="col-md-8"> 
+                <div class="card-body">
+                    <h3 class="course-title title-color">
+                        <a href="{% url "course_detail" course.slug %}">
+                            {{ course.name }}
+                        </a>
+                    </h3>
+                    <p class="course-description">
+                        <a href="{% url "course_list_subject" course.subject.slug %}">{{ course.subject }}</a>.
+                        {{ course.total_modules }} módulos.
+                    </p>
+                    <ul class="pricing-content" style="margin-left: 30px;">
+                        {% for module in course.modules.all %} 
+                            <p>{{ forloop.counter }}. {{ module.title }}<p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4"> 
+                {% if course.has_discount %}
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <h4 style="text-align: center;">Precio </h4>
+                    <h2 class="text-muted" style="text-align: center;"><s>{{ course.price  | currency }}</s></h2>
+                    <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+                        <h4 class="text-muted">Precio con descuento</h4>
+                    </div>
+                    <h2 style="text-align: center;"><b>{{ course.total_price  | currency}} </b></h2>
+                </div>
+                {% else %}
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <h4 style="text-align: center;">Precio </h4>
+                    <h2 class="text-muted" style="text-align: center;">{{ course.price  | currency }}</h2>
+                </div>
+                {% endif %}
+                <form action="{% url 'add_item' course.id %}" method="POST" class="btn-block">
+                    {% csrf_token %}
+                    <input hidden type="text" name='course' value='{{course.id}}'>
+                    <br>
+                    <button  class="btn btn-pill btn-green ml-auto" style="float: right; margin-right: 70px;">
+                        <b> Agregar al carrito </b>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+
+
+
+

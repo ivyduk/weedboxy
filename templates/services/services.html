@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load cart_tags %}
+{% load currency_converter %}
 {% block title %}Servicios{% endblock %}    
 {% block body %}
 
 <body>
+    <section>
+        <div class="py-5" style="background-color: #502d61;">
+            <br><br>
+            <div class="container-fluid text-white text-center margin-header" style="background-color: #502d61; ">
+                <h1 class="text-white">Servicios</h1>
+                <p class="lead fw-normal text-white-50 mb-0"> Explora nuestras opciones, encuentra el servicio perfecto para ti.</p> 
+            </div> 
+        </div>
+    </section>
+    {% include 'messages.html' %}
   
   <!-- ======== carrousel-section ======== -->
 
-  <section id="services" class="hero-services">
+   <!-- <section id="services" class="hero-services">
+    <br><br>
     {% include 'messages.html' %}
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -46,14 +59,161 @@
     
     
 
-  </section>
+  </section>-->
 
   <!-- ======== carrousel-section end ======== -->
+
+   <!-- ======== description-plan-section ======== -->
+   <section class="container py-5">
+    <div class="row">
+        {% for plan in plans %}
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <br>
+                        <h1 class="title-color">Plan de autocultivo Weedboxy</h1>
+                        <br>
+                        <p>{{ plan.description }}</p>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <br>
+                        <figure class="figure">
+                            <div class="card h-100" style="display: flex; flex-direction: column; border: none;">
+                                <div style="flex: 1;">
+                                    <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.name }}" style="width: 80%; height: auto; object-fit: cover; display: inline-block;">
+                                </div>
+                                <figcaption class="figure-caption text-center"><h6 style="font-weight: normal;">Imagen autocultivo.</h6> </figcaption>
+                            </div>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 program-container">
+                <div class="card text-center" style="border: 0.5px solid #afacac; height: 100%;">
+                    <br>
+                    <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+                        <h2 class="title-color">Costo del plan</h2>
+                    </div>
+            
+                    {% if plan.has_discount %}
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h1 class="text-muted"><s> {{ plan.price | currency }}</s></h1>
+                        <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+                            <h4 class="text-muted">Precio con descuento</h4>
+                        </div>
+                        <h1><b>{{ plan.total_price | currency}}</b></h1>
+                    </div>
+                    {% else %}
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h1 class="text-muted">{{ plan.price | currency}}</h1>
+                    </div>
+                    {% endif %}
+            
+                    {% for plan in plans %}
+                    <form action="{% url 'add_item' plan.id %}" method="POST" class="btn-block">
+                        {% csrf_token %}
+                        <input hidden type="text" name='cultivationplan' value='{{plan.id}}'>
+                        <button class="btn btn-pill btn-green ml-auto " style="margin-bottom: 70px;"><b> Agregar al carrito</b> <i class="fas fa-arrow-right"></i></button>
+                    </form>
+                    {% endfor %}
+
+                    {% if featuresplans %}
+                    <ul class="list-group list-group-flush">
+                        {% for featuresplan in featuresplans %}
+                        <li class="list-group-item title-color">{{ featuresplan.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                 
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+     
+    <section>
+     
+                  
+        <br><br> <br><br><br><br> 
+        <div class="row">
+            <div class="col-md-12 program-container text-center align-items-center">
+                {% if featuresplans %}
+                <h2  class="title-color" style="text-align: center;">Características del plan</h2>
+                <br>
+                <div class="row">
+                    {% for featuresplan in featuresplans %}
+                        <ul class="list-group list-group-light list-group-small">
+                            <li class="list-group-item"><span class="fas fa-star"></span> {{ featuresplan.name }}: {{ featuresplan.description }}</li>
+                        </ul>
+                    {% endfor %}
+                {% endif %}  
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            {% for plan in plans %}
+                <div class="col-md-12">
+                    <div style="text-align: center;">
+                        <video width="70%" controls>
+                            <source src="{{ plan.video.url }}" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</section>
+<!-- ======== descripcion-plan-section end ======== -->
+
+
+<!-- ======== cultivation-stage-section ======== -->
+
+<section class="container py-5" id="syllabus-section">
+  
+            
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                {% if stagesplans  %}
+                <h2 class="text-center title-color">Etapas del plan de autocultivo</h2>
+            </div>
+        </div>
+        <br><br>
+                {% for stagesplan in stagesplans %}
+        <div class="accordion accordion-flush" id="syllabus-list">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#syllabus-content-{{ stagesplan.step }}">
+                            {{ stagesplan.step }}. {{ stagesplan.name }}
+                        </button>
+                    </h2>
+                    <div id="syllabus-content-{{ stagesplan.step }}" class="accordion-collapse collapse" data-bs-parent="#syllabus-list">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>{{ stagesplan.description }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            
+          
+        </div>
+    </div>
+</section>
+  <!-- ======== cultivationstages-section end ======== -->
+
+
+<!-- ======== cultivation-plan-section end ======== -->
+
   
   <!-- ======== services-section ======== -->
 
 {% for service in services %}
-  {% if service.feature_set.all %}
+  {% if service.servicefeature_set.all %}
   <section id="{{ service.name }}" class="section-services">
       <div class="container">
           <div class="row justify-content-center text-center">
@@ -64,13 +224,13 @@
               </div>
           </div>
           <div class="row">
-              {% for feature in service.feature_set.all %}
+              {% for servicefeature in service.servicefeature_set.all %}
               <!-- Single Service -->
               <div class="col-md-6 col-lg-4">
                   <div class="single-service">
                       <div class="content">
-                          <h3 class="title">{{ feature.name }}</h3>
-                          <p class="description">{{ feature.description }}</p>
+                          <h3 class="title">{{ servicefeature.name }}</h3>
+                          <p class="description">{{ servicefeature.description }}</p>
                       </div>
                       <span class="circle-before"></span>
                   </div>
@@ -137,38 +297,66 @@
 
 
   <!-- ======== subscribe-section ======== -->
- 
+  
   <section id="contact" class="subscribe-section pt-120">
     <div class="container">
       <div class="subscribe-wrapper img-bg">
         <div class="row align-items-center">
           <div class="col-xl-6 col-lg-7">
 
-            <form action="" method="post" class="services-form" id="ServicesForm">
+            <form action="" method="post" class="row g-3 services-form" id="ServicesForm">
               {% csrf_token %}
               
-              <div class="form-group">
-                  <label for="{{ form.first_name.id_for_label }}">Nombre:</label>
-                  {{ form.first_name }}
+              <div class="col-md-6">
+                  <label for="{{ form.first_name.id_for_label }}" class="form-label" ></label>
+                  {{ form.first_name|add_class:"form-control" }}
+                  {% if form.first_name.errors %}
+                        <ul class="error">
+                        {% for error in form.first_name.errors %}
+                            <br>
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
               </div>
-              <div class="form-group">
-                <label for="{{ form.first_name.id_for_label }}">Apellido:</label>
-                {{ form.last_name }}
+              <div class="col-md-6">
+                <label for="{{ form.last_name.id_for_label }}" class="form-label" ></label>
+                {{ form.last_name|add_class:"form-control"}}
+                {% if form.last_name.errors %}
+                        <ul class="error">
+                        {% for error in form.last_name.errors %}
+                            <br>
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
               </div>
-              <div class="form-group">
-                <label for="{{ form.first_name.id_for_label }}">Teléfono:</label>
-                {{ form.phone }}
+              <div class="col-md-6">
+                <label for="{{ form.phone.id_for_label }}" class="form-label" ></label>
+                {{ form.phone|add_class:"form-control" }}
+                {% if form.phone.errors %}
+                        <ul class="error">
+                        {% for error in form.phone.errors %}
+                            <br>
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
               </div>
-              <div class="form-group">
-                <label for="{{ form.first_name.id_for_label }}">Correo:</label>
-                {{ form.email }}
+              <div class="col-md-6">
+                <label for="{{ form.email.id_for_label }}" class="form-label" ></label>
+                {{ form.email|add_class:"form-control" }}
+               
               </div>
-              <div class="form-group">
-                <label >Servicio:</label>
-                {{ form.services }}
+              <div class="col-md-12" >
+                <label class="form-label" >Servicio:</label>
+                {{ form.services|add_class:"form-control" }}
               </div>
 
-              <button type="submit" class="btn btn-light btn-lg margin-button-submit">Enviar</button>
+              <div>
+                <p><input type="submit" value="Enviar"  class="btn btn-pill btn-green ml-auto" style="float: right;"></p>
+            </div>
+            
           </form>
           {% if message %}
           <div class="alert alert-success hidden success-message ">

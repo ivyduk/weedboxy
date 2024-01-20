@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Ingresar{% endblock %}    
+{% block body %}
+<body>
+
+    <div class="py-5" style="background-color: #502d61;">
+        <br><br><br>
+         <div class="container-fluid  text-white text-center" style="background-color: #502d61;">
+         </div> 
+     </div>
+     <br> <br> <br> <br> 
+   
+     <h1 class="text-center title">Bienvenido {{ new_user.first_name }}!</h1>
+     <hr class="my-4 custom-hr">
+     <br>
+     <p class="text-center">
+       Tu cuenta ha sido creada satisfactoriamente.
+       Ahora puedes <a href="{% url  'login' %}">ingresar</a> a ella.
+     </p>
+    
+               
+
+    
+</body>
+
+{% endblock %}  

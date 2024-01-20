@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% load currency_converter %}
+{% block title %}Orden{% endblock %}    
+{% block body %}
+<body>
+    
+    <section>
+        <div class=" py-5" style="background-color: #502d61;">
+           <br><br>
+            <div class="container-fluid  text-white text-center margin-header" style="background-color: #502d61;">
+                <h1 class="text-white title-color">Ordenes</h1>
+                <p class="lead fw-normal text-white-50 mb-0"> Estás a un paso de disfrutar de los mejores productos del mercado</p> 
+            </div> 
+        </div>
+    </section>
+
+    <section>
+        <br><br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <p class="alert alert-warning"> Una vez diligencies el formulario y realices la orden te redigiremos a los metodos de pago.</p>
+                        <div class="card-header py-3">
+                            <h2 class="mb-0 title-color">Tu orden</h2>
+                        </div>
+                        <br>
+                        <ul class="order-list">
+                            {% for item in cart %}
+                                <li class="order-item">
+                                    <span class="item-quantity">{{ item.quantity }} X</span>
+                                    <span class="item-name">{{ item.item.name }}</span>
+                                    <span class="item-price">{{ item.item.total_price | currency}}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <p  class="total-price ">Total: {{ cart.get_total_price | currency }}</p>
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-6 form-container">
+                    <form method="post" class="row g-3">
+                        {% csrf_token %}
+                        <div class="col-md-6">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label" ></label>
+                             {{ form.first_name|add_class:"form-control"  }}
+                        </div>
+                        <div class="col-md-6">
+                            <label  for="{{ form.last_name.id_for_label }}" class="form-label"></label>
+                            {{ form.last_name|add_class:"form-control" }}
+                        </div>
+                        <div class="col-12">
+                            <label for="{{ form.email.id_for_label }}" class="form-label"></label>
+                            {{ form.email|add_class:"form-control"  }}
+                        </div>
+                        <div class="col-12">
+                            <label for="{{ form.address.id_for_label }}" class="form-label"></label>
+                            {{ form.address|add_class:"form-control"  }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.postal_code.id_for_label }}" class="form-label" ></label>
+                             {{ form.postal_code|add_class:"form-control"  }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.city.id_for_label }}" class="form-label" ></label>
+                             {{ form.city|add_class:"form-control"  }}
+                        </div>
+
+                        <div>
+                            <input type="submit" value="Realizar orden" class="btn btn-pill btn-green ml-auto" style="float: right;">
+                        </div>
+                    </form>
+                </div>
+                
+                
+                
+                
+            </div>
+        </div>
+    </section>
+   
+</body>
+{% endblock %}
+
+
+
+

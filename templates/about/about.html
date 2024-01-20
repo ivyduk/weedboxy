@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load cart_tags %}
+{% load currency_converter %}
 {% block title %}Acerca de{% endblock %}    
 {% block body %}
 
@@ -17,22 +18,25 @@
 
 
     
-<section id="about" class="hero-services">
+<section>
+    <div class="py-5" style="background-color: #502d61;">
+       
+    </div>
 </section>
 
 <section>
-    <div class=" text-secondary px-4 py-5 text-center section-about-weedboxy "   >
+    <div class=" text-secondary px-4 py-5 text-center section-about-weedboxy "  >
         <div class="py-5">
-            <h1 class="display-5 fw-bold text-green">Weedboxy</h1>
+            <h1 class="display-5 fw-bold text-green" style="color: #38945a;">Weedboxy</h1>
             <br>
             <div class="col-lg-6 mx-auto">
-                <p class="fs-5 mb-4">Ayudamos a autocultivadores de cannabis a cosechar plantas de su
+                <p class="fs-5 mb-4" style="color: #502d61;">Ayudamos a autocultivadores de cannabis a cosechar plantas de su
                 interés de manera oportuna y legal reconociendo la calidad de los
                 resultados obtenidos</p>
            
              </div>
         </div>
-      </div>
+    </div>
 
 
    
@@ -43,9 +47,10 @@
 
 <section>
     <div class="px-4 py-5 my-5 text-center">
-        <h1 class="display-5 fw-bold">¿Quienes somos?</h1>
+        <h1 class="display-5 fw-bold" style="color: #502d61;">¿Quienes somos?</h1>
         <div class="col-lg-6 mx-auto">
-        <p class="lead mb-4">Somos una organización compromelida con la capacitación, Investigación, asesoría y
+            <br>
+        <p class="lead mb-4">Somos una organización comprometida con la capacitación, investigación, asesoría y
             promoción del cultivo legal, consciente, responsable de la planta y de sus usos. Así mismo
             construimos cultra a partir de información objetiva y a través de la investigación en sus
             procesos de cosecha, uso final y aplicaciones relacionadas.</p>
@@ -65,13 +70,14 @@
         <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
             
             <div class="col-lg-6">
-                <h1 class="display-5 fw-bold lh-1 mb-3">¿Que ofrecemos?</h1>
+                <h1 class="display-5 fw-bold lh-1 mb-3" style="color: #502d61;">¿Que ofrecemos?</h1>
+            
                 <ul>
                     <li> Renta de espacio privado para tu autoculivo</li>
                     <li>Renta de equipamiento de tu espacio</li>
                     <li> Adecuación del espacio</li>
                     <li> Plan de suministro de suplementos estándar durante todo el ciclo de cultivo (Abonos)</li>
-                    <li> Labores de Jardinería y poda</li>
+                    <li> Labores de jardinería y poda</li>
                     <li> Labores de seguimiento y cuidado a la planta</li>
                     <li> Ciclo completo de cultivo hasta la cosecha 24 semanas</li>
                     <li> Evaluación de calidad de las flores resultantes</li>

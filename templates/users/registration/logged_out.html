@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Ingresar{% endblock %}    
+{% block body %}
+<body>
+
+    <div class=" py-5" style="background-color: #502d61;">
+        <br><br><br>
+         <div class="container-fluid text-white text-center" style="background-color: #502d61;">
+         </div> 
+     </div>
+     <br> <br> <br> <br> 
+     <h1>Sesion finalizada</h1>
+     <p>
+     Has cerrado tu sesion satisfactoriamente.
+     Puedes <a href="{% url "login" %}">ingresar</a> de nuevo.
+     </p>
+    
+</body>
+
+{% endblock %}

@@ -2,11 +2,12 @@ from django.db import models
 from apps.packages.models import Package
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
+from apps.orders.models import SKUItem
 
 
 # Create your models here.
 
-class CultivationPlan(Package):
+class CultivationPlan(SKUItem):
     image = models.ImageField(upload_to='img/') 
     video = models.FileField(upload_to='videos/')    
 
@@ -31,6 +32,7 @@ class StagesCultivationPlan(models.Model):
         validators=[MinValueValidator(1)]
     )
     name=models.CharField(max_length=100)
+    description = models.TextField(default="")
     cultivation_plan=models.ForeignKey(CultivationPlan, on_delete=models.CASCADE)
 
 
@@ -49,3 +51,12 @@ class StagesCultivationPlan(models.Model):
                 raise ValidationError("The step must be unique to this cultivation plan.")
 
         super(StagesCultivationPlan, self).validate_unique(*args, **kwargs)
+
+
+class PlanFeature(models.Model):
+    name=models.CharField(max_length=100)
+    description = models.TextField(default="")
+    cultivation_plan=models.ForeignKey(CultivationPlan, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name

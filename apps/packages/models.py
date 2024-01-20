@@ -1,16 +1,14 @@
 from django.db import models
-from apps.orders.models import OrderItem
+from apps.orders.models import SKUItem
 
 
-class PackageItem(OrderItem):
-    description = models.TextField()
+class PackageItem(SKUItem):
 
     def __str__(self):
         return self.name
 
 
-class Package(OrderItem):
-    description = models.TextField()
+class Package(SKUItem):
     is_active = models.BooleanField()
     package_items = models.ManyToManyField(PackageItem, related_name='package_items', blank=True)
 

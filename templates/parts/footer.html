@@ -38,9 +38,9 @@
                 <div class="footer-widget">
                   <h3>Sobre nosotros</h3>
                   <ul class="links">
-                    <li><a href="javascript:void(0)">Inicio</a></li>
-                    <li><a href="javascript:void(0)">Equipo de trabajo</a></li>
-                    <li><a href="javascript:void(0)">Contacto</a></li>
+                    <li><a href="{% url 'index' %}">Inicio</a></li>
+                    <!-- <li><a href="javascript:void(0)">Equipo de trabajo</a></li>-->
+                    <li><a  href="{% url 'services_home' %}#contact">Contacto</a></li>
                     
                   </ul>
                 </div>
@@ -52,6 +52,7 @@
                   <ul class="links">
                     <li><a href="javascript:void(0)">Politicas de autocultivo</a></li>
                     <li><a href="javascript:void(0)">Terminos del servicio</a></li>
+                    <li><a href="jvascript:void(0)">Eventos</a></li>
                     
                   </ul>
                 </div>
@@ -62,8 +63,8 @@
                   <h3>Otros productos</h3>
                   <ul class="links">
                     <li><a href="jvascript:void(0)">Cursos</a></li>
-                    <li><a href="jvascript:void(0)">Accesorios</a></li>
-                    <li><a href="jvascript:void(0)">Eventos</a></li>
+                    <li><a href="{% url 'products_home' %}">Accesorios</a></li>
+                    
                     
                   </ul>
                 </div>
@@ -71,7 +72,7 @@
             </div>
           </div>
         </div>
-        <div class="text-center p-2" style="background-color: #abd296; color:#444551">
+        <div class="text-center p-2" style="background-color: #d6d4d4; color:#444551">
           © 2022 Weedboxy Derechos Reservados
         </div>
       </footer>

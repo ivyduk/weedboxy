@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% load currency_converter %}
+{% block title %}Resultados de búsqueda para "{{ query }}"{% endblock %}    
+{% block body %}
+<body>
+
+    <section>
+        <div class=" py-5" style="background-color: #502d61;">
+           <br><br>
+            <div class="container-fluid text-white text-center margin-header" style="background-color: #502d61;">
+                <h1 class="text-white">Tienda virtual Weedboxy</h1>
+                <p class="lead fw-normal text-white-50 mb-0"> Encuentra todo lo que necesitas</p> 
+            </div> 
+        </div>
+    </section>
+    <br>
+
+
+
+
+
+    <section>
+        <div class="container py-5">
+            <div class="container">
+                <div class="row">
+                <aside class="col-md-3">
+                    <form method="GET" action="{% url 'product_search' %}" class="pb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" placeholder="Buscar producto">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btnSearch-light"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    
+    
+        <!-- ======== categories-section ======== -->       
+                    <div class="card">
+                        <article class="filter-group" id="filter_header">
+                            <header class="card-header">
+                                <!--<a href="#collapse_1"  data-toggle="collapse" aria-expanded="false" aria-controls="#collapse_1">
+                                    <i class="icon-control fa fa-chevron-down"></i>
+                                    <h3 class="title">Categorias</h3>
+                                </a>-->
+                                <h3 class="title title-color">Categorias</h3>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_1">
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="{% url  'products_home' %}" class="list-group-item list-group-item-action btn btn-outline-success">Todos los productos</a>
+                                        {% for category in categories %}
+                                        <a href="{% url 'product_list_filtered' category.id %}" class="list-group-item list-group-item-action btn btn-outline-success">{{ category.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div> <!-- card-body.// -->
+                            </div>
+                        </article> <!-- filter-group  .// -->
+                    </div>
+        <!-- ======== categories-section end ======== -->            
+          
+            <!-- ======== products-propierties-section  ======== -->
+                </aside>
+                <div class="col-md-9">
+                
+                    <header class="border-bottom mb-4 pb-3">
+                        <div class="row">
+                            <div class="col">
+                                <span class="mr-md-auto">{{ total }} Productos encontrados </span>
+                            </div>
+                            <div class="col col-md-3">
+                                <form method="GET" action="{% url 'products_home' %}">
+                                    <select name="filter_option" id="filter_option">
+                                        <option value="" {% if not selected_filter_option %}selected{% endif %}>Seleccione una opción</option>
+                                        <option value="recent" {% if selected_filter_option == 'recent' %}selected{% endif %}>Más recientes</option>
+                                        <option value="promo" {% if selected_filter_option == 'promo' %}selected{% endif %}>En promoción</option>
+                                    </select>
+                                </form>    
+                            </div>
+                        </div>
+                    </header>
+            <!-- ======== products-propierties-section end ======== -->
+    
+    
+            <!-- ======== products-section ======== -->
+                <h3 style="text-align: center;">Resultados de la búsqueda para "{{ query }}"</h3>
+                    <br>
+                    <div class="row">
+                        {% for product in results %}
+                        <div class="col col-md-6 col-lg-3 pb-4">
+                            <div class="card h-100" style="border:none">
+                                {% if product.has_discount %}
+                                    <div class="badge text-white position-absolute" style=" background-color: #502d61; top: 0.5rem; right: 0.5rem">Promo {{ product.discount_percentage }}%</div>
+                                {% endif %}
+                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="width: auto; height: 250px; object-fit: scale-down;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text text-muted" style="font-size:12px">{{ product.category }}</p>
+                                    <p class="card-text">
+                                        {% if product.has_discount %}
+                                            <p class="text-muted"><s>{{ product.price | currency }}</s></p>
+                                            {{ product.total_price | currency }} 
+                                        {% else %}
+                                            <p>{{ product.price | currency }}<p>
+                                        {% endif %}
+                                    </p>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <br>
+                                    {% if product|is_in_cart:cart %}
+                                        <div class="input-group">
+                                            <form action="{% url 'remove_item_quantity' product.id %}" class="col-2" method="POST">
+                                                {% csrf_token %}
+                                                <span class="input-group-btn">
+                                                    <input hidden type="text" name='product' value='{{product.id}}'>
+                                                    <input hidden type="text" name='remove' value='True'>                              
+                                                    <button class="btn btn-success btn-number">
+                                                        <i class="fas fa-minus">-</i>
+                                                    </button>
+                                                </span>
+                                            </form>
+                                            <span class="text-center col">{{product|cart_quantity:cart}} en carrito</span>
+                                            <form action="{% url 'add_item' product.id %}" class="col-2 " method="POST">
+                                                {% csrf_token %}
+                                                <span class="input-group-btn">
+                                                    <input hidden type="text" name='product' value='{{product.id}}'>
+                                                    <button class="btn btn-success btn-number">
+                                                        <i class="fas fa-plus">+</i>
+                                                    </button>
+                                                </span>
+                                            </form>
+                                        </div>
+                                    {% else %}
+                                        <form action="{% url 'add_item' product.id %}" method="POST" class="btn-block">
+                                            {% csrf_token %}
+                                            <input hidden type="text" name='product' value='{{product.id}}'>
+                                            <button class="center btn btn-primary btn-wb btn-sm">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                                </svg>
+                                                <b> Agregar al carrito </b>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            <!-- ======== products-section end ======== -->
+        
+    
+            <!-- ======== pagination ======== -->
+            <div class="container">
+                <div class="pagination justify-content-center">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; primero</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                        {% endif %}
+        
+                        <span class="current"><p>
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</p>
+                        </span>
+        
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">último &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <!-- ======== end pagination ======== -->
+        </div> 
+    </section>
+    <script>
+        document.getElementById('filter_option').addEventListener('change', function() {
+            this.form.submit();
+        });
+    </script>
+</body>
+{% endblock %}

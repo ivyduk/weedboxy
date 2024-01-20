@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Ingresar{% endblock %}    
+{% block body %}
+<body>
+
+    <div class=" py-5" style="background-color: #502d61;">
+        <br><br><br>
+         <div class="container-fluid text-white text-center" style="background-color: #502d61;">
+         </div> 
+     </div>
+     <br> <br> <br> <br> 
+   
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 form-container">
+                <h3 class="text-center title-color">Ingresar</h3>
+                <br>
+                <p> Si no tienes una cuenta <a href="{% url 'register' %}">registrate acá </a>.</p>
+                <br>
+                {% if form.errors %}
+                    <p style="color: red;">Tu correo y contraseña no coinciden. Por favor intentalo de nuevo.</p>
+                {% else %}
+                    <p>Por favor ingresa tus datos para entrar a tu cuenta. 
+                    </p>
+                {% endif %}
+                <br> 
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.first_name.id_for_label }}"></label>
+                        {{ form.email|add_class:"form-control" }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.last_name.id_for_label }}"></label>
+                        {{ form.password|add_class:"form-control"}}
+                    </div>
+                    <br> 
+                    <p><a href="{% url 'password_reset' %}">
+                        Olvidaste tu contraseña</a></p>
+                    <br>
+                    <div>
+                        <input type="hidden" name="next" value="{{ next }}" />
+                        <p><input type="submit" value="Ingresar"  class="btn btn-pill btn-green ml-auto" style="float: right;"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+{% endblock %}

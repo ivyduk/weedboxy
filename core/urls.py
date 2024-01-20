@@ -3,6 +3,7 @@ from . import views
 from apps.users import views as users_views
 
 
+
 urlpatterns = [  
     
     path('', views.index, name='index'),

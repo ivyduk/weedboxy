@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Edita tu perfil{% endblock %}  
+{% block body %}
+<body>
+    <div class="py-5" style="background-color: #502d61;">
+        <br>
+        <div class="container-fluid text-white text-center " style="background-color: #502d61;">
+        </div> 
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <div class="text-center" style="background-color: #f7f7f7;"> 
+                        <br>
+                        <h2 class="fs-5 d-none d-sm-inline title-color">Menu</h2>
+                        <br>
+                        <hr>
+                    </div>
+                   
+                    
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'dashboard' %}active{% endif %}" href="{% url 'orders:order_history' %}">
+                                Mis órdenes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'edit' %}active{% endif %}" href="{% url 'edit' %}">
+                                Editar perfil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'password_change' %}active{% endif %}" href="{% url 'change_password' %}">
+                                Cambiar contraseña
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+                <div class="col-md-9">
+
+                    
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h2 class="mb-0 title-color" style="text-align: center;">Detalles de la orden</h2>
+                          
+                                <div class="success-message"> 
+                                    <p>
+                                        Señor {{ order.first_name }} {{ order.last_name }}, usted realizó la orden #{{ order.id }} en la fecha {{ order.created_at }} con los siguientes detalles:
+                                        <br>
+                                        Dirección: {{ order.address }}
+                                        <br>
+                                        Ciudad: {{ order.city }}
+                                        <br>
+                                        Codigo postal: {{ order.postal_code }}
+                                        <br>
+                                        Correo: {{ order.email }}
+                                        <br>
+                                        Estado de pago: {% if order.paid %} Pagado {% else %} Pendiente {% endif %}
+                                    </p>
+
+
+                                </div>
+                            </div>
+                            <ul class="order-list">
+                                <li class="order-item" style="background-color: #f7f7f7;">
+                                    <span><strong>Item</strong></span>
+                                    <span style="margin-left: 240px;"><b>Cantidad</b></span>
+                                    <span><strong>Precio unitario</strong></span>
+                                    <span><strong>Total</strong></span>
+                                </li>
+                                {% for item in order.items.all %}
+                                    <li class="order-item" style="display: flex; align-items: center;">
+                                        <span style="flex: 2;">{{ item.sku_item.name }}</span>
+                                        <span style="flex: 1;">{{ item.quantity }}</span>
+                                        <span style="flex: 1;">{{ item.price }}</span>
+                                        <span>{{ item.get_cost }}</span>
+                                    </li>
+                                {% endfor %}
+                                <li class="order-item" style="display: flex; justify-content: space-between;">
+                                    <span style="margin-left: auto;"><b style="margin-left: auto;">Costo total:</b></span>
+                                    <span style="margin-left: auto;"><b>{{ total_cost }}</b></span>
+                                </li>
+                            </ul>
+                            
+                            
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

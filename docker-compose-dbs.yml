@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  
+  db:
+    image: postgres:14.5
+    environment:
+      - POSTGRES_DB=wboxydb
+      - POSTGRES_USER=wbadmin
+      - POSTGRES_PASSWORD=Wboxy123
+    volumes:
+      - ../docker/data:/docker-entrypoint-initdb.d
+      - ../docker/data/dumps:/dumps
+    ports:
+      - "5432:5432"
+    command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"
+

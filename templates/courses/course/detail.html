@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% load currency_converter %}
+{% block title %}Cursos de Autocultivo Weedboxy{% endblock %}    
+{% block body %}
+
+<section>
+  <div class=" py-5" style="background-color: #502d61;">
+     <br><br>
+      <div class="container-fluid py-5 text-white text-center margin-header" style="background-color: #502d61;">
+          <h1 class="text-white">Cursos de Autocultivo Weedboxy</h1>
+          <p class="lead fw-normal text-white-50 mb-0">Marihuana de Calidad, Cultivo con Sabiduría</p> 
+      </div> 
+  </div>
+</section>
+<section>
+  <br><br>
+   <div class="container">
+       <div class="row">
+          <div>
+              <div class="row">
+                  <br><br><br>
+                  {% with subject=object.subject %}
+                  <h1 class="title-color">{{ object.name }}</h1>
+                  <div class="col-md-12 mb-4">
+                    <div class="card course-card">
+                        <div class="row">
+                            <div class="col-md-8"> 
+                                <div class="card-body">
+                                    <h3 class="course-title"> 
+                                        <h2>Resumen:</h2>
+                                        <p>{{ object.description }}</p>
+                                    </h3>
+                                    <p class="course-description">
+                                        <a href="{% url 'course_list_subject' subject.slug %}">
+                                            {{ subject.title }}
+                                        </a>.
+                                        {{ object.modules.count }} módulos.
+                                        <br>
+                                    </p>
+                                </div>
+                                <ul class="pricing-content" style="margin-left: 40px;">
+                                    {% for module in object.modules.all %} 
+                                        <h5> Módulo {{ forloop.counter }}: {{ module.title }}</h5>
+                                        <p>{{ module.description }}</p>
+                                        <br>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-4 d-flex flex-column" style="margin-top: 25px;">
+                                {% if course.has_discount %}
+                                <div class="card-body" >
+                                    <h4 style="text-align: center;">Precio </h4>
+                                    <h2 class="text-muted text-center"><s>{{ course.price | currency }}</s></h2>
+                                    <div class="card-header text-center border-bottom-0 bg-transparent text-success pt-4">
+                                        <h4 class="text-muted">Precio con descuento</h4>
+                                    </div>
+                                    <h2 class="text-center"><b>{{ course.total_price | currency }} </b></h2>
+                                </div>
+                                {% else %}
+                                <div class="card-body">
+                                    <h4 style="text-align: center;">Precio </h4>
+                                    <h2 class="text-muted text-center">{{ course.price | currency }}</h2>
+                                </div>
+                                {% endif %}
+                                <form action="{% url 'add_item' object.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input hidden type="text" name='course' value='{{ object.id }}'>
+                                    <button class="btn btn-pill btn-green mt-auto text-center" style="margin-top: auto; margin-left: 130px; margin-bottom: 30px;">
+                                        <b> Agregar al carrito </b>
+                                    </button>
+                                </form>
+                            </div>                            
+                        </div> 
+                    </div>
+                    {% endwith %}
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+      
+
+

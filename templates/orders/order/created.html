@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% load currency_converter %}
+{% block title %}Orden creada{% endblock %}    
+{% block body %}
+<body>
+  
+    <div class="container">
+
+        <h1 class="text-center title-color">Gracias</h1>
+        <br>
+        <p class="text-center">Tu orden ha sido creada. Sigue los siguientes pasos
+            para completar el pago y poder disfrutar de tus productos.
+        </p>
+        <hr class="my-4 custom-hr">
+        <div class="success-message">
+            <ul class="b" style="margin-left: 150px;">
+                <li>Realiza el pago por alguno de nuestros medios de pago, Nequi, Daviplata.</li>
+                <br>
+                <li>Envianos el comprobante de pago a nuestro Whatsapp: +57 333 3333333 o a nuestro correo de Soporte:
+                    soporte_wboxy@gmail.com 
+                </li>
+                <br>
+                <li>Si estas registrado en tu perfil podras hacer seguimiento del estado de tu pedido.</li>
+          </ul>
+        </div>
+        <br><br><br>
+        <div class="row">
+            <div class="col-md-6 row custom-row" style="margin-right: 10px;">
+                <div class="card mb-4">
+                    <div class="card-header  py-3">
+                        <h3 class="mb-0 title-color" style="text-align: center;">Resumen de tu orden</h3>
+                    </div>
+                    <br>
+                    <ul class="order-list">
+                        {% for item in cart_items %}
+                            <li class="order-item">
+                                <span class="item-quantity">{{ item.quantity }} </span>
+                                <span class="item-name">{{ item.item.name }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>   
+                    <p class="total-price">Total:
+                        {% if cart_total is not None %}
+                            {{ cart_total | currency }}
+                        {% else %}
+                            {{ order.get_total | currency}}
+                        {% endif %}
+                    </p>   
+                </div>
+            </div>
+            <div class="col-md-6 row custom-row" style="margin-left: 10px;">
+                <h2 class="text-center title-color">Formas de Pago</h2>
+                <br>
+                <ol class="order-list image-container-nequi">
+                    1. <img src="{% static 'img/cart/nequi.png' %}" alt="Nequi" />
+                        <li class="order-item">Paga via Nequi al numero 333-3 33 33 33</li>
+                        <li class="order-item"> Envia el comprobante de pago al Whatsapp +57 333-3 33 33 33</li>
+                </ol>
+                <br>
+                <ol class="order-list image-container-nequi">
+                    2. <img src="{% static 'img/cart/daviplata.png' %}" alt="Daviplata" />
+                        <li class="order-item">Paga via Daviplata al numero 333-3 33 33 33</li>
+                        <li class="order-item"> Envia el comprobante de pago al Whatsapp +57 333-3 33 33 33</li>
+                </ol>
+                
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
+

@@ -4,8 +4,8 @@ from django.contrib import admin
 
 from .models import ServicesContact
 from .models import Service
-from .models import Feature
+from .models import ServiceFeature
 
 admin.site.register(ServicesContact)
 admin.site.register(Service)
-admin.site.register(Feature)
+admin.site.register(ServiceFeature)

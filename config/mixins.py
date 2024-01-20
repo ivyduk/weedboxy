@@ -27,11 +27,10 @@ class PricingMixin(models.Model):
         default=PricingType.FIXED,
     )
     
-    price = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_percentage = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default=0)
 
     
-
     class Meta:
         abstract = True
 

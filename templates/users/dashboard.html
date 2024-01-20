@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Ingresar{% endblock %}  
+{% block body %}  
+
+
+
+<body>
+  <div class=" py-5" style="background-color: #502d61;">
+      <br><br><br>
+      <div class="container-fluid text-white text-center" style="background-color: #502d61;">
+      </div> 
+  </div>
+  <br>
+  <div class="container">
+      <div class="row">
+          <div class="col-md-3">
+              <div class="sidebar">
+                <div class="text-center" style="background-color: #f7f7f7;"> 
+                  <br>
+                  <h2 class="fs-5 d-none d-sm-inline title-color">Menu</h2>
+                  <br>
+                  <hr>
+              </div>
+                  <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                      <li class="nav-item">
+                          <a class="nav-link {% if section == 'dashboard' %}active{% endif %}" href="{% url 'orders:order_history' %}">
+                              Mis órdenes
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link {% if section == 'edit' %}active{% endif %}" href="{% url 'edit' %}">
+                              Editar perfil
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link {% if section == 'password_change' %}active{% endif %}" href="{% url 'change_password' %}">
+                              Cambiar contraseña
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <div class="col-md-9">
+            {% if request.user.is_authenticated %}
+            <h1 class="text-center title-color">Hola  {{ request.user.first_name|default:request.user.email }}</h1>
+            {% endif %}
+            <hr class="my-4 custom-hr">
+            <br>
+            <p class="text-center">
+            Bienvenid@ a tu cuenta weedboxy.
+            </p>
+            <br><br><br>
+          </div>
+          </div>
+      </div>
+  </div>
+</body>
+
+
+{% endblock %}
+
+
+
+ <!--<ul class="nav flex-column">
+  <li class="nav-item">
+      <a class="nav-link {% if section == 'password_change' %}active{% endif %}" href="{% url 'password_change' %}">
+          Cambiar contraseña
+      </a>
+  </li>
+  <li class="nav-item">
+      <a class="nav-link {% if section == 'edit' %}active{% endif %}" href="{% url 'edit' %}">
+          Editar perfil
+      </a>
+  </li>
+  <li class="nav-item">
+      <a class="nav-link {% if section == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+          Mis órdenes
+      </a>
+  </li>
+</ul> -->

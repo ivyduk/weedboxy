@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+{% block title %}Edita tu perfil{% endblock %}  
+{% block body %}
+<body>
+    <div class="py-5" style="background-color: #502d61;">
+        <br><br><br>
+        <div class="container-fluid text-white text-center" style="background-color: #502d61;">
+        </div> 
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <div class="text-center" style="background-color: #f7f7f7;"> 
+                        <br>
+                        <h2 class="fs-5 d-none d-sm-inline title-color">Menu</h2>
+                        <br>
+                        <hr>
+                    </div>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'dashboard' %}active{% endif %}"  href="{% url 'orders:order_history' %}">
+                                Mis órdenes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'edit' %}active{% endif %}" href="{% url 'edit' %}">
+                                Editar perfil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'password_change' %}active{% endif %}" href="{% url 'change_password' %}">
+                                Cambiar contraseña
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <h1 class="title-color" style="text-align: center;">Edita tu perfil</h1>
+                <br><br>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+                        <h4 style="text-align: center;">{{ message }}</h4>
+                        <br>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                <br>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2"> 
+                            <div class="form-container">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="{{ user_form.first_name.id_for_label }}" class="col-form-label">Nombres:</label>
+                                        {{ user_form.first_name|add_class:"form-control" }}
+                                        {% if user_form.first_name.errors %}
+                                            <ul class="error">
+                                            {% for error in user_form.first_name.errors %}
+                                                <br>
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{ form.last_name.id_for_label }}" class="col-form-label">Apellidos:</label>
+                                        {{ user_form.last_name|add_class:"form-control" }}
+                                        {% if user_form.last_name.errors %}
+                                            <ul class="error">
+                                            {% for error in user_form.last_name.errors %}
+                                                <br>
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{ user_form.phone_number.id_for_label }}" class="col-form-label">Teléfono:</label>
+                                        {{ user_form.phone_number|add_class:"form-control" }}
+                                        {% if user_form.phone_number.errors %}
+                                            <ul class="error">
+                                            {% for error in user_form.phone_number.errors %}
+                                                <br>
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{ form.last_name.id_for_label }}" class="col-form-label">Correo:</label>
+                                        {{ user_form.email|add_class:"form-control" }}
+                                        {% if user_form.email.errors %}
+                                            <ul class="error">
+                                            {% for error in user_form.email.errors %}
+                                                <br>
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div  class="button-container">
+                                    <p><input type="submit" class="btn btn-success" value="Guardar cambios"></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

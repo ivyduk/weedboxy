@@ -19,7 +19,6 @@ class Category(ModelMixin):
 		return self.name
 
 
-
 class Product(PackageItem):
 	image = models.ImageField(upload_to='img/')
 	affiliate_url = models.SlugField(blank=True, null=True)
@@ -47,18 +46,13 @@ class Product(PackageItem):
 			return Product.objects.filter(category=category_id)
 		else:
 			return Product.get_all_products()
-	
-	@property
-	def discounted_price(self):
-		return ((self.price)*(self.discount_percentage))/100 
-	
-	@property
-	def total_price(self):
-		return self.price - self.discounted_price if self.has_discount else self.price
+		
+	@staticmethod
+	def get_products_with_discount():
+		return Product.objects.filter(discount_percentage__gt=0)
 
-	@property
-	def has_discount(self):
-		return self.discount_percentage > 0
+
+
 
 	
 

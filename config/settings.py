@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'apps.orders.apps.OrdersConfig',
     'apps.courses.apps.CoursesConfig',
     'apps.cultivation.apps.CultivationConfig',
-  
+    'django.contrib.humanize',
   
 ]
 
@@ -78,7 +78,8 @@ TEMPLATES = [
             ],
 
             'libraries':{
-                'cart_tags': 'templatetags.cart_tags',         
+                'cart_tags': 'templatetags.cart_tags',    
+                'currency_converter': 'templatetags.currency_converter',      
             }
         },
     },
@@ -97,9 +98,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'wboxydb',
+        'USER': 'wbadmin',
+        'PASSWORD': 'Wboxy123',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -126,13 +131,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -160,10 +167,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
+
 AUTH_USER_MODEL = "users.UserAccount" 
 
 # cart session id
 CART_SESSION_ID = 'WB-CART'
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 

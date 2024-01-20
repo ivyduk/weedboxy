@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from apps.orders.models import OrderItem
+from apps.orders.models import SKUItem
 
 
 class Cart(object):
@@ -13,7 +13,7 @@ class Cart(object):
         self.cart = cart
           
     def add(self, item_id, quantity=1, update_quantity=False):
-        item = OrderItem.objects.get(id=item_id)
+        item = SKUItem.objects.get(id=item_id)
         item_id = str(item_id)
 
         if item_id not in self.cart:
@@ -50,7 +50,7 @@ class Cart(object):
 
     def __iter__(self):
         item_ids = self.cart.keys()
-        items = OrderItem.objects.filter(id__in=item_ids)
+        items = SKUItem.objects.filter(id__in=item_ids)
         for item in items:
             self.cart[str(item.id)]['item'] = item
 

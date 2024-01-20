@@ -19,3 +19,10 @@ def cart_quantity(item, cart):
         if int (id) == item.id:
             return str(cart.cart.get(id).get('quantity'))
     return str(0)
+
+
+
+@register.filter(name='add_class')
+def add_class(value, css_class):
+    """Add a CSS class to a form field."""
+    return value.as_widget(attrs={'class': css_class})

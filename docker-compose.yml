@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:14.5
+    environment:
+      - POSTGRES_DB=wboxydb
+      - POSTGRES_USER=wbadmin
+      - POSTGRES_PASSWORD=Wboxy123
+    volumes:
+      - ../docker/data:/docker-entrypoint-initdb.d
+      - ../docker/data/dumps:/dumps
+    ports:
+      - "5432:5432"
+    command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"

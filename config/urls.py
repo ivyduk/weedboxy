@@ -16,22 +16,31 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from apps.services import urls as service_urls
+from apps.users import urls as users_urls
+from apps.courses import urls as course_urls
 from apps.products import urls as product_urls
 from apps.cultivation import urls as cultivation_urls
+from apps.orders import urls as order_urls
 from django.conf import settings
 from django.conf.urls.static import static
 import config.views as config_views
+from apps.courses.views import CourseListView
+
 
 urlpatterns = [
+    path('users/', include(users_urls)),
     path('services/', include(service_urls)),
+    path('courses/', include(course_urls)),
     path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('products/', include(product_urls)),
     path('cultivation/', include(cultivation_urls)),
+    path('orders/', include(order_urls)),
     path('cart/', config_views.cart, name='cart'),
     path('add_to_cart/<int:item_id>/', config_views.add_to_cart, name='add_item'),
     path('remove_item_quantity_from_cart/<int:item_id>/', config_views.remove_item_quantity_from_cart, name='remove_item_quantity'),
     path('remove_item_from_cart/<int:item_id>/', config_views.remove_item_from_cart, name='remove_item'),
+    
 
      
 ]
