@@ -9,9 +9,7 @@ services:
       - POSTGRES_USER=wbadmin
       - POSTGRES_PASSWORD=Wboxy123
     volumes:
-      - ../docker/data:/docker-entrypoint-initdb.d
-      - ../docker/data/dumps:/dumps
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"
 
